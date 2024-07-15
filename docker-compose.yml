@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  rstudio:
+    image: rocker/rstudio:4.2
+    environment:
+      - PASSWORD=test
+      - USER=ilnitsky
+      - R_LIBS_USER=/home/rstudio/libs
+    volumes:
+      - rstudio_data:/home/rstudio
+      - r_libs:/home/rstudio/libs  # Persistent volume for R packages
+      - ./rsession.sh:/etc/rstudio/rsession.sh
+    ports:
+      - "${RSTUDIO_PORT}:8787"
+    restart: unless-stopped
+  
+volumes:
+  rstudio_data:
+  r_libs:  # Define the persistent volume for R packages
